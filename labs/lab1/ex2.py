@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # SUTD 50.042 FCS Lab 1
 # Simple shift cipher with auxiliary file read in/out capabilities
+# James Raphael Tiovalen / 1004555
 
 
 # Import libraries
