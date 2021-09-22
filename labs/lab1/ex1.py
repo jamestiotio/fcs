@@ -51,7 +51,8 @@ def do_stuff(filein, fileout, key, mode):
                 output_text += string.printable[idx]
         # File stream will be closed automatically when interpreter reaches end of the block
 
-    # Write to fileout (open in another separate context to prevent simultaneous file opening/modification and race conditions)
+    # Write to fileout (open in another separate context to prevent simultaneous file opening/modification, race conditions, or corruptions due to unexpected crashes)
+    # Tradeoff would be that the entire output needs to be temporarily stored in memory before directed and written to the output file
     with open(fileout, mode="w", encoding="utf-8", newline="\n") as fout:
         fout.write(output_text)
 
