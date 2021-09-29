@@ -1,5 +1,7 @@
-# Backup file for Lab 2 Part II
+#!/usr/bin/env python3
+# Backup file for SUTD 50.042 FCS Lab 2 Part II
 # In case the server goes down
+# James Raphael Tiovalen / 1004555
 
 import os
 import base64
@@ -22,7 +24,7 @@ def decrypt(cipher, OTP):
 
 
 # Original message
-original_plaintext = b"Student ID 1000000 gets 0 points\n"
+original_plaintext = b"Student ID 1004555 gets a total of 0 points!\n"
 
 # Randomly generated OTP
 OTP = gen_OTP(length=len(original_plaintext))
@@ -33,10 +35,14 @@ original_cipher = XOR(original_plaintext, OTP)
 # Decrypt
 print(decrypt(original_cipher, OTP))
 
+target_string = b"Student ID 1004555 gets a total of 4 points!\n"
+
 
 def hax():
-    # TODO: manipulate ciphertext to decrypt to:
-    # "Student ID 100XXXX gets 4 points"
+    # Here, we manipulate the ciphertext without referring to the secret OTP to decrypt to:
+    # "Student ID 100XXXX gets a total of 4 points!"
+    mask = XOR(original_plaintext, target_string)
+    new_cipher = XOR(original_cipher, mask)
     return new_cipher
 
 
