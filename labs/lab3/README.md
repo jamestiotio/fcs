@@ -100,7 +100,7 @@ Tasks:
   - Chain number is 600000.
   - Part index is 0.
   - Table index is 0.
-- Use [`rtsort`](http://project-rainbowcrack.com/generate.htm) to sort the rainbow table to make searchable by `rcrack`. (sorts the rainbow chains by end point to make binary search possible)
+- Use [`rtsort`](http://project-rainbowcrack.com/generate.htm) to sort the rainbow table to make searchable by `rcrack` (sorts the rainbow chains by end point to make binary search possible).
 - Use [`rcrack`](http://project-rainbowcrack.com/crack.htm) to crack the list of fifteen strings from `hash5.txt`.
 
 Answer the following questions in your report:
@@ -129,7 +129,7 @@ Where `||` denotes concatenation.
 
 ### Cracking the Hashes
 
-- Generate a new rainbow table using `rtgen` (with new parameters - up to you do decide) to break the hash values. As before, sort the table using `rtsort`.
+- Generate a new rainbow table using `rtgen` (with new parameters - up to you to decide) to break the hash values. As before, sort the table using `rtsort`.
 - Compare the timing of the new table generation and lookup vs the previous values.
 - Try to break as many salted hashes as possible.
 
@@ -137,8 +137,7 @@ Answer the following questions in your report:
 
 - What is the observed differences between your ease of cracking the salted vs the unsalted plaintexts?
 - Report the difference in time observed to crack.
-- Explain any differences between salted and non salted rcrack
-  strategies.
+- Explain any differences between salted and non salted rcrack strategies.
 
 ## Part V: Hash Breaking Competition
 
