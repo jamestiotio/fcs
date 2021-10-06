@@ -23,7 +23,7 @@
 
 The submission from this lab will include a short **report** to be submitted in **PDF or HTML** form.
 
-A template for the report has been provided in the form of a Jupyter Notebook. Export it as HTML (preferred) for the submission (`jupyter nbconvert --execute --to html report.ipynb`). You can also use any other document processing tool to make the report, as long as you answer all the questions in each section.
+A template for the report has been provided in the form of a Jupyter Notebook. Export it as HTML (preferred) for the submission (`jupyter nbconvert --to html report.ipynb`). You can also use any other document processing tool to make the report, as long as you answer all the questions in each section.
 
 ## Part I: Hashing Using MD5
 
