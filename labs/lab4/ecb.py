@@ -19,7 +19,7 @@ def generate_key(key_filename, key_length):
 
 
 # PKCS#7-standard padding instead of zero padding (condition: byte_blocksize < 256)
-# This padding scheme ensures unambiguity
+# This padding scheme ensures unambiguity and deterministic
 def pad(data_to_pad):
     padding_len = byte_blocksize - len(data_to_pad) % byte_blocksize
     padding = bytes([padding_len]) * padding_len
