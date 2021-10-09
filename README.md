@@ -1,4 +1,5 @@
 # fcs
+
 SUTD 2021 50.042 Foundations of Cybersecurity Code Dump
 
 Basically:
@@ -7,4 +8,4 @@ Basically:
 
 ![sekuriti](./sekuriti.png)
 
-![hackerman](./hackerman.jpg)
+![hackerman](./hackerman.webp)

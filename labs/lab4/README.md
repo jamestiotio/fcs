@@ -64,7 +64,7 @@ You will be able to get all the needed information from the resources above. To 
 
 - Use Python script `present.py` as a template to implement PRESENT block cipher with 80-bit key and 64-bit block length.
 - You need to implement both the encryption and decryption portion.
-- Check your result using Appendix 1 of the above linked paper. Note that `present.py` provides those test cases at the end of the ﬁle.
+- Check your result using Appendix 1 of the above linked paper. Note that `present.py` provides those test cases at the end of the file.
 
 ## Implementing ECB Mode
 
@@ -74,10 +74,10 @@ Your `present.py` in the previous section is for a plaintext of 64-bit length. I
 
 Tasks
 
-1. Use your ECB mode block cipher to encrypt the ﬁle `Tux.ppm`.
-2. Decrypt the ﬁle and see whether you can still see the same image.
+1. Use your ECB mode block cipher to encrypt the file `Tux.ppm`.
+2. Decrypt the file and see whether you can still see the same image.
 
-Use `ecb.py` and run the ﬁle as the following:
+Use `ecb.py` and run the file as the following:
 
 ```shell
 python ecb.py -i [input filename] -o [output filename] -k [key filename] -m [mode]
@@ -88,14 +88,14 @@ python ecb.py -i [input filename] -o [output filename] -k [key filename] -m [mod
 ECB mode reveals some side-channel information about the plaintext pattern in the ciphertext. In this section, we will try to learn information about the plaintext image from its ECB ciphertext.
 
 1. Download `letter.e`. This is a secret image, encrypted in ECB mode, with a secret key.
-2. Your task is to recover the plaintext of the original image. The image is stored in PBM format and has its header information stored in the ﬁle header `header.pbm`, that is known to the attacker, i.e. you.
+2. Your task is to recover the plaintext of the original image. The image is stored in PBM format and has its header information stored in the file header `header.pbm`, that is known to the attacker, i.e. you.
 3. Write a Python script to extract the image pattern from letter.e. You can use `extract.py` as a starting point.
 
 ```shell
 python extract.py -i [input filename] -o [output filename] -hh [known header file]
 ```
 
-Hint: You can ignore the ﬁrst few characters which represent the header as it has already been given. The plaintext PBM image is black and white, i.e. the format only has two values, either 0 or 1. You can assume that there is no space between the data values.
+Hint: You can ignore the first few characters which represent the header as it has already been given. The plaintext PBM image is black and white, i.e. the format only has two values, either 0 or 1. You can assume that there is no space between the data values.
 
 ## Submission
 

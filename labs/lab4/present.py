@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-
-# Present skeleton file for 50.042 FCS
+# PRESENT skeleton file for SUTD 50.042 FCS Lab 4
+# James Raphael Tiovalen / 1004555
 
 
 # constants
@@ -8,6 +8,29 @@ FULLROUND = 31
 
 # S-Box Layer
 sbox = [0xC, 0x5, 0x6, 0xB, 0x9, 0x0, 0xA, 0xD, 0x3, 0xE, 0xF, 0x8, 0x4, 0x7, 0x1, 0x2]
+
+# Inverted S-Box Layer
+# We pre-establish and use lookup table to allow O(1) time complexity, instead of O(n) by alternatively calling .index()
+# This is okay since nowadays, we are not limited so much by memory space anymore (and the size of the lookup table is small enough anyway)
+# Another method would be: [sbox.index(i) for i in range(16)]
+inverted_sbox = [
+    0x5,
+    0xE,
+    0xF,
+    0x8,
+    0xC,
+    0x1,
+    0x2,
+    0xD,
+    0xB,
+    0x4,
+    0x6,
+    0x3,
+    0x0,
+    0x7,
+    0x9,
+    0xA,
+]
 
 # PLayer
 pmt = [
@@ -77,9 +100,12 @@ pmt = [
     63,
 ]
 
+# Inverted pLayer
+# Another way would be: [pmt.index(i) for i in range(64)]
+# Closed mathematical formula forms and sequence/series patterns are always preferable in terms of elegance and performance
+inverted_pmt = [x for i in range(0, 4) for x in range(i, i + 64, 4)]
+
 # Rotate left: 0b1001 --> 0b0011
-
-
 def rol(val, r_bits, max_bits):
     return (val << r_bits % max_bits) & (2 ** max_bits - 1) | (
         (val & (2 ** max_bits - 1)) >> (max_bits - (r_bits % max_bits))
@@ -87,8 +113,6 @@ def rol(val, r_bits, max_bits):
 
 
 # Rotate right: 0b1001 --> 0b1100
-
-
 def ror(val, r_bits, max_bits):
     return ((val & (2 ** max_bits - 1)) >> r_bits % max_bits) | (
         val << (max_bits - (r_bits % max_bits)) & (2 ** max_bits - 1)
@@ -96,26 +120,113 @@ def ror(val, r_bits, max_bits):
 
 
 def genRoundKeys(key):
-    pass
+    # Hardcoded hotfix for 0th key
+    round_keys = [32]
+    # Copy the original user-supplied input key
+    key_register = key
+
+    # Loop through all rounds
+    for round_counter in range(1, FULLROUND + 2):
+        # Extract 64 leftmost bits and add round key to master key list
+        round_keys.append(key_register >> 16)
+        # Step 1 (rotate by 61 bit positions to the left is equivalent to rotate by 19 bit positions to the right)
+        key_register = ror(key_register, 19, 80)
+        # Step 2
+        key_register = (sbox[key_register >> 76] << 76) | (key_register % (2 ** 76))
+        # Step 3
+        key_register ^= round_counter << 15
+
+    return round_keys
 
 
+# This function is fully invertible (reusable without any modifications)
 def addRoundKey(state, Ki):
-    pass
+    return state ^ Ki
 
 
+# For best practice, we do not modify original inputs at all
+# Work in the realm of binary bits using much faster bitwise operations (instead of converting to integers, strings, or hexadecimal representations)
 def sBoxLayer(state):
-    pass
+    output = 0
+    # Define mask to select word from state
+    mask = 0xF
+
+    # Loop from right-most word to left-most word
+    for i in range(16):
+        # Select w_i
+        x = (state >> (i * 4)) & mask
+        # Find S[w_i], the corresponding substitution value from S-Box
+        sx = sbox[x]
+        # Add S[w_i] to output
+        output |= sx << (i * 4)
+
+    return output
 
 
 def pLayer(state):
-    pass
+    output = 0
+    # Define mask to select bit from state
+    mask = 0x1
+
+    # Loop from right-most word to left-most bit
+    for i in range(64):
+        # Select b_i
+        bi = (state >> i) & mask
+        # Find P(i)
+        pi = pmt[i]
+        # Assign bit b_i to new position P(i) of output
+        output |= bi << pi
+
+    return output
+
+
+def sBoxLayer_inv(state):
+    output = 0
+    # Define mask to select word from state
+    mask = 0xF
+
+    # Loop from right-most word to left-most word
+    for i in range(16):
+        # Select S[w_i]
+        sx = (state >> (i * 4)) & mask
+        # Find w_i, the corresponding substitution value from inverted S-Box
+        x = inverted_sbox[sx]
+        # Add w_i to output
+        output |= x << (i * 4)
+
+    return output
+
+
+def pLayer_inv(state):
+    output = 0
+    # Define mask to select bit from state
+    mask = 0x1
+
+    # Loop from right-most word to left-most bit
+    for i in range(64):
+        # Select b_i
+        bi = (state >> i) & mask
+        # Find P(i)
+        pi = inverted_pmt[i]
+        # Assign bit b_i to original position P(i) of output
+        output |= bi << pi
+
+    return output
 
 
 def present_round(state, roundKey):
+    # One encryption round: addRoundKey() -> sBoxLayer() -> pLayer()
+    state = addRoundKey(state, roundKey)
+    state = sBoxLayer(state)
+    state = pLayer(state)
     return state
 
 
 def present_inv_round(state, roundKey):
+    # One decryption round: pLayer_inv() -> sBoxLayer_inv() -> addRoundKey()
+    state = pLayer_inv(state)
+    state = sBoxLayer_inv(state)
+    state = addRoundKey(state, roundKey)
     return state
 
 
@@ -138,10 +249,13 @@ def present_inv(cipher, key):
 
 
 if __name__ == "__main__":
-    # Testvector for key schedule
+    # Test vector for key schedule
     key1 = 0x00000000000000000000
     keys = genRoundKeys(key1)
+    # The 0th-index "key" is there to show that there are 32 cases
+    # First key to actually be used starts from index 1
     keysTest = {
+        0: 32,
         1: 0,
         2: 13835058055282163712,
         3: 5764633911313301505,
@@ -178,7 +292,7 @@ if __name__ == "__main__":
     for k in keysTest.keys():
         assert keysTest[k] == keys[k]
 
-    # Testvectors for single rounds without keyscheduling
+    # Test vectors for single rounds without key scheduling
     plain1 = 0x0000000000000000
     key1 = 0x00000000000000000000
     round1 = present_round(plain1, key1)
@@ -193,7 +307,7 @@ if __name__ == "__main__":
     round33 = 0xCC3FCC3F33C00000
     assert round3 == round33
 
-    # invert single rounds
+    # Invert single rounds
     plain11 = present_inv_round(round1, key1)
     assert plain1 == plain11
     plain22 = present_inv_round(round2, key1)
