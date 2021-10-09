@@ -99,7 +99,7 @@ Opening the terminal will automatically start a **shell**, and interactive envir
 - Find the usage of commands: `man <command_name>`
 - Change the directory: `cd <path_to_new_dir>`
 - Listing the contents of a directory: `ls`
-- Search ﬁles: `locate <filename>`
+- Search files: `locate <filename>`
 - Display contents of file: `cat <filename>`
 - Print lines matching a pattern: `grep <pattern> <filename>`
 - Make a directory: `mkdir <path_to_new_dir>`
@@ -116,7 +116,7 @@ Opening the terminal will automatically start a **shell**, and interactive envir
 
 #### File access control in Linux
 
-Linux uses per-ﬁle access control. There are three diﬀerent types of access to a ﬁle: reading (`r`) , writing (`w`), and execution (`x`).
+Linux uses per-file access control. There are three diﬀerent types of access to a file: reading (`r`) , writing (`w`), and execution (`x`).
 
 Each file also has three associated "type" of user(s):
 
@@ -126,7 +126,7 @@ Each file also has three associated "type" of user(s):
 
 Typically the file owner is a (single) user who created the file, the file's group is used to group other users who may want to access the file, and the other users are the remaining users.
 
-The access rights for _each_ of those three classes of users can be described in a short string, e.g. `r-x` for read and execution rights. The rights of all three types of users together yield a longer string, e.g. `rw-r–r–` for a ﬁle which can be read and written by the owner, but only read by everyone else.
+The access rights for _each_ of those three classes of users can be described in a short string, e.g. `r-x` for read and execution rights. The rights of all three types of users together yield a longer string, e.g. `rw-r–r–` for a file which can be read and written by the owner, but only read by everyone else.
 
 **Example**
 
@@ -138,7 +138,7 @@ From the terminal, use `ls -l filename` to see the current permission bits state
 
 You can read the name of the file's owner and file's group from the output of the same command.
 
-Try using `ls` and `cd` to look around on your system, and see who has what kind of access control to which ﬁle. The content of `/etc/` could be especially interesting.
+Try using `ls` and `cd` to look around on your system, and see who has what kind of access control to which file. The content of `/etc/` could be especially interesting.
 
 #### `chmod`
 
