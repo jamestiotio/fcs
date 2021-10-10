@@ -42,6 +42,8 @@ def unpad(padded_data):
 
 # Combined with PKCS#7 padding, this implementation actually greatly highlights, exemplifies, and somehow exaggerates the weakness of ECB mode
 def ecb(infile, outfile, key, mode):
+    # While the computational parts of encryption/decryption might be CPU-heavy, the IO-heavy auxiliary parts of reading from and writing to the files might not justify the tradeoffs of parallelizing this section (since there will be additional overhead involved)
+    # The actions of reading from and writing to the files should be in-order (otherwise, the jumbled/garbled/corrupted data would not make much sense)
     with open(infile, "rb") as source, open(outfile, "wb") as dest:
         # Encryption
         if mode == "e":

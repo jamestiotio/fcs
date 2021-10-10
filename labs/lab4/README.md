@@ -75,7 +75,7 @@ Your `present.py` in the previous section is for a plaintext of 64-bit length. I
 Tasks
 
 1. Use your ECB mode block cipher to encrypt the file `Tux.ppm`.
-2. Decrypt the file and see whether you can still see the same image.
+2. Decrypt the file and see whether you can still see the same image (either use `cmp` or `diff` to check whether they are identical to the original `Tux.ppm` image file or not).
 
 Use `ecb.py` and run the file as the following:
 

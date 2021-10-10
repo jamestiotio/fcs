@@ -168,7 +168,7 @@ def pLayer(state):
     # Define mask to select bit from state
     mask = 0x1
 
-    # Loop from right-most word to left-most bit
+    # Loop from right-most bit to left-most bit
     for i in range(64):
         # Select b_i
         bi = (state >> i) & mask
@@ -202,7 +202,7 @@ def pLayer_inv(state):
     # Define mask to select bit from state
     mask = 0x1
 
-    # Loop from right-most word to left-most bit
+    # Loop from right-most bit to left-most bit
     for i in range(64):
         # Select b_i
         bi = (state >> i) & mask
