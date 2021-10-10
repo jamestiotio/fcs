@@ -13,13 +13,13 @@ byte_blocksize = blocksize // 8
 
 
 # Utility function to generate a random key file
-def generate_key(key_filename, key_length):
+def generate_key(key_filename, key_length=nokeybits):
     with open(key_filename, "wb") as keyfile:
         keyfile.write(secrets.token_bytes(key_length))
 
 
 # PKCS#7-standard padding instead of zero padding (condition: byte_blocksize < 256)
-# This padding scheme ensures unambiguity and deterministic
+# This padding scheme is deterministic and ensures unambiguity
 def pad(data_to_pad):
     padding_len = byte_blocksize - len(data_to_pad) % byte_blocksize
     padding = bytes([padding_len]) * padding_len
@@ -97,8 +97,8 @@ if __name__ == "__main__":
         key_content = file.read()
         seed = int.from_bytes(key_content, "big")
 
-    # Use additional layer of separation for slightly higher security
+    # Use additional layer of separation for slightly higher security (ensures that actual key length is always 80 bits)
     random.seed(seed)
-    key = random.getrandbits(80)
+    key = random.getrandbits(nokeybits)
 
     ecb(infile, outfile, key, mode)
