@@ -214,17 +214,79 @@ def pLayer_inv(state):
     return output
 
 
+### WARNING: Extra random nonsense stuff just to optimize and speed up the cipher algorithm's processing time
+def turbo_boosted_jamestiotio_sBoxLayer(state):
+    pass
+
+
+def turbo_boosted_jamestiotio_sBoxLayer_inv(state):
+    pass
+
+
+### Possible improvement: Use virtual butterfly/Benes/Omega-Flip network implementation instead of a normal, naive for loop to make the original pLayer much faster (logn cycles instead of n cycles)
+### For more information: http://palms.ee.princeton.edu/PALMSopen/lee01efficient.pdf
+### This implementation uses the GRP instruction (check PEX and PDEP as well) - we de-interleave the odd and even bits (Morton encoding/decoding)
+### Avoid hitting the lookup tables at all (trace the bits)
+def turbo_boosted_jamestiotio_pLayer(state):
+    output = state
+    for _ in range(2):
+        x = output
+        y = output >> 1
+        x &= 0x5555555555555555
+        y &= 0x5555555555555555
+
+        x = (x | (x >> 1)) & 0x3333333333333333
+        x = (x | (x >> 2)) & 0x0F0F0F0F0F0F0F0F
+        x = (x | (x >> 4)) & 0x00FF00FF00FF00FF
+        x = (x | (x >> 8)) & 0x0000FFFF0000FFFF
+        x = (x | (x >> 16)) & 0x00000000FFFFFFFF
+
+        y = (y | (y >> 1)) & 0x3333333333333333
+        y = (y | (y >> 2)) & 0x0F0F0F0F0F0F0F0F
+        y = (y | (y >> 4)) & 0x00FF00FF00FF00FF
+        y = (y | (y >> 8)) & 0x0000FFFF0000FFFF
+        y = (y | (y >> 16)) & 0x00000000FFFFFFFF
+
+        output = (y << 32) | x
+    return output
+
+
+### We interleave the odd and even bits back
+def turbo_boosted_jamestiotio_pLayer_inv(state):
+    output = state
+    for _ in range(2):
+        x = output & 0xFFFFFFFF
+        y = (output & 0xFFFFFFFF00000000) >> 32
+
+        x = (x | (x << 16)) & 0x0000FFFF0000FFFF
+        x = (x | (x << 8)) & 0x00FF00FF00FF00FF
+        x = (x | (x << 4)) & 0x0F0F0F0F0F0F0F0F
+        x = (x | (x << 2)) & 0x3333333333333333
+        x = (x | (x << 1)) & 0x5555555555555555
+
+        y = (y | (y << 16)) & 0x0000FFFF0000FFFF
+        y = (y | (y << 8)) & 0x00FF00FF00FF00FF
+        y = (y | (y << 4)) & 0x0F0F0F0F0F0F0F0F
+        y = (y | (y << 2)) & 0x3333333333333333
+        y = (y | (y << 1)) & 0x5555555555555555
+
+        output = x | (y << 1)
+    return output
+
+
 def present_round(state, roundKey):
     # One encryption round: addRoundKey() -> sBoxLayer() -> pLayer()
     state = addRoundKey(state, roundKey)
     state = sBoxLayer(state)
-    state = pLayer(state)
+    # state = pLayer(state)
+    state = turbo_boosted_jamestiotio_pLayer(state)
     return state
 
 
 def present_inv_round(state, roundKey):
     # One decryption round: pLayer_inv() -> sBoxLayer_inv() -> addRoundKey()
-    state = pLayer_inv(state)
+    state = turbo_boosted_jamestiotio_pLayer_inv(state)
+    # state = pLayer_inv(state)
     state = sBoxLayer_inv(state)
     state = addRoundKey(state, roundKey)
     return state

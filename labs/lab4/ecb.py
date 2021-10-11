@@ -3,6 +3,7 @@
 # James Raphael Tiovalen / 1004555
 
 from present import *
+from multiprocessing import Pool
 import argparse
 import random
 import secrets
@@ -44,6 +45,7 @@ def unpad(padded_data):
 def ecb(infile, outfile, key, mode):
     # While the computational parts of encryption/decryption might be CPU-heavy, the IO-heavy auxiliary parts of reading from and writing to the files might not justify the tradeoffs of parallelizing this section (since there will be additional overhead involved)
     # The actions of reading from and writing to the files should be in-order (otherwise, the jumbled/garbled/corrupted data would not make much sense)
+    # Take note that encryption and decryption are more CPU-bound than IO-bound (profiling shows that S-Box and P-Layer take the most time and are the slowest steps/parts)
     with open(infile, "rb") as source, open(outfile, "wb") as dest:
         # Encryption
         if mode == "e":
