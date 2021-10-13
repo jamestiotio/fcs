@@ -6,6 +6,7 @@
 import copy
 
 
+# Possible improvement would be to use a SageMath and/or NumPy-based implementation
 class Polynomial2:
     def __init__(self, coeffs):
         pass
@@ -16,6 +17,9 @@ class Polynomial2:
     def sub(self, p2):
         pass
 
+    # Possible improvement:
+    # - https://hal.archives-ouvertes.fr/hal-02070816/document
+    # - https://hal.archives-ouvertes.fr/hal-01022757v2/document
     def mul(self, p2, modp=None):
         pass
 
