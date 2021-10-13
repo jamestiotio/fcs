@@ -281,6 +281,7 @@ def pLayer_inv(state):
 
 
 ### WARNING: Extra random nonsense stuff just to optimize and speed up the cipher algorithm's processing time
+### Create 256-bytes squared S-Box
 larger_better_f4ster_stronger_beeg_sbox_lut = [
     0xCC,
     0xC5,
@@ -800,6 +801,12 @@ larger_better_f4ster_stronger_beeg_sbox_inv_lut = [
 ]
 
 
+### I think this is the easiest way to speed up the S-Box, at least at this stage...
+### Any larger LUT size would be inconvenient for both disk space and physical memory (RAM) needed... :(
+### Possible micro optimization in the future would be to implement polynomial factorization/reduction over the finite field GF(2^4) for the original PRESENT S-Box or matrix multiplication/inverse multiplication with affine mapping
+### For more information on algebraic attacks and alternative PRESENT implementations:
+### - https://bitbucket.org/malb/research-snippets/src/master/present.py
+### - https://bitbucket.org/malb/research-snippets/src/master/present_bitslice.c
 def turbo_boosted_jamestiotio_sBoxLayer(state):
     output = 0
     mask = 0xFF
@@ -828,6 +835,7 @@ def turbo_boosted_jamestiotio_sBoxLayer_inv(state):
 ### For more information: http://palms.ee.princeton.edu/PALMSopen/lee01efficient.pdf
 ### This implementation uses the GRP instruction (check PEX and PDEP as well) - we de-interleave the odd and even bits (Morton encoding/decoding)
 ### Avoid hitting the lookup tables at all (trace the bits)
+### This is halfway/a middle ground between a naive for loop and a one-permutation-per-clock-period FPGA operation
 def turbo_boosted_jamestiotio_pLayer(state):
     output = state
     for _ in range(2):

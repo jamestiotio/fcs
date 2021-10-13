@@ -3,17 +3,59 @@
 # James Raphael Tiovalen / 1004555
 
 import argparse
+from collections import Counter
 
 
 def getInfo(headerfile):
+    header_content = b""
+    header_length = -1
     with open(headerfile, "rb") as header:
-        content = header.read()
+        header_content = header.read()
+        header_length = len(header_content)
 
-    return content
+    return header_content, header_length
 
 
+# We do some kind of frequency analysis attack (using some eye power as well)
 def extract(infile, outfile, headerfile):
-    pass
+    header_content, header_length = getInfo(headerfile)
+    encrypted = []
+
+    with open(infile, "rb") as fin:
+        # Skip to just after the header in the ciphertext (+1 for line feed)
+        fin.read(header_length + 1)
+        while byte := fin.read(8):
+            encrypted.append(byte)
+
+    # Find block with highest frequency
+    block_frequency = dict(Counter(encrypted))
+
+    print(block_frequency)
+
+    frequency = -1
+    for block, count in block_frequency.items():
+        if count > frequency:
+            most_frequent_block = block
+            frequency = count
+
+    # Decrypt based on frequency
+    # We assign the blocks with highest frequency as 00000000 (all white)
+    # For the rest of the blocks, we assign as 11111111 (all black)
+    # This is interchangeable since we know that the image is only black and white
+    decrypted = [
+        b"0" * 8 if block == most_frequent_block else b"1" * 8 for block in encrypted
+    ]
+
+    # Combine decrypted blocks together
+    decrypted = "".join([block.decode() for block in decrypted]).encode()
+
+    # Write header + decrypted content to output file
+    with open(outfile, "wb") as fout:
+        fout.write(header_content)
+        fout.write(b"\n")
+        fout.write(decrypted)
+
+    return True
 
 
 if __name__ == "__main__":

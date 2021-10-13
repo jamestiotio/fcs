@@ -21,6 +21,7 @@ def generate_key(key_filename, key_length=nokeybits):
 
 # PKCS#7-standard padding instead of zero padding (condition: byte_blocksize < 256)
 # This padding scheme is deterministic and ensures unambiguity
+# That said, it's quite wasteful since size of encrypted file can double due to extra block of bytes added for the case of full input blocks... ._.
 def pad(data_to_pad):
     padding_len = byte_blocksize - len(data_to_pad) % byte_blocksize
     padding = bytes([padding_len]) * padding_len
