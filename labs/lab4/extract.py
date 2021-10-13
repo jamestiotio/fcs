@@ -19,6 +19,8 @@ def getInfo(headerfile):
 # We do some kind of frequency analysis attack (using some eye power as well)
 def extract(infile, outfile, headerfile):
     header_content, header_length = getInfo(headerfile)
+    if header_length == -1:
+        return False
     encrypted = []
 
     with open(infile, "rb") as fin:
@@ -30,13 +32,14 @@ def extract(infile, outfile, headerfile):
     # Find block with highest frequency
     block_frequency = dict(Counter(encrypted))
 
-    print(block_frequency)
-
     frequency = -1
     for block, count in block_frequency.items():
         if count > frequency:
             most_frequent_block = block
             frequency = count
+
+    if frequency == -1:
+        return False
 
     # Decrypt based on frequency
     # We assign the blocks with highest frequency as 00000000 (all white)
@@ -51,9 +54,7 @@ def extract(infile, outfile, headerfile):
 
     # Write header + decrypted content to output file
     with open(outfile, "wb") as fout:
-        fout.write(header_content)
-        fout.write(b"\n")
-        fout.write(decrypted)
+        fout.write(header_content + b"\n" + decrypted)
 
     return True
 
@@ -74,3 +75,5 @@ if __name__ == "__main__":
     print("Writing to: %s" % outfile)
 
     success = extract(infile, outfile, headerfile)
+
+    print(f"PBM pattern extraction {'successful' if success else 'failed'}!")
