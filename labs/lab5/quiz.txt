@@ -1,5 +1,5 @@
 1. FALSE. Since there are 3 elements in GF(3) (0, 1, and 2), addition and subtraction are no longer equivalent (since they do not wrap-around to the same values any more with modulo 3).
 2. TRUE. Both addition and subtraction are equivalent to XOR-ing the corresponding respective coefficients of any polynomials in GF(2^8) (and in any finite field with characteristic 2, for that matter).
 3. TRUE. This is because multiplication modulo 2 corresponds to the logical AND operation on boolean variables (whereby 0 and 1 are both the only elements of GF(2)).
-4. FALSE. The maximum degree of a polynomial in GF(2^8) is 7.
-5. FALSE. The stated polynomial cannot be factored into product of non-trivial polynomials over the GF(2) field.
+4. FALSE. The maximum/highest degree of a polynomial in GF(2^8) is 7.
+5. FALSE. The stated polynomial can be factored into product of non-trivial polynomials over the GF(2) field: (x + 1)^2 * (x^2 + x + 1).
