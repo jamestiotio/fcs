@@ -7,7 +7,12 @@ import random
 
 
 def square_multiply(a, x, n):
-    pass
+    y = 1
+    for i in bin(x)[2:]:
+        res = (res * res) % n
+        if i == "1":
+            res = (res * a) % n
+    return res
 
 
 def miller_rabin(n, a):
