@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# SUTD 50.042 FCS Lab 6 template
+# SUTD 50.042 FCS Lab 6 Template
 # Year 2021
 # James Raphael Tiovalen / 1004555
 

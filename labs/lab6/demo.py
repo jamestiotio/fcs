@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SUTD 50.042 FCS Lab 6 Year 2021
-# Cracking demo code file
+# Cracking Demo Code File
 # James Raphael Tiovalen / 1004555
 
 import numpy as np
