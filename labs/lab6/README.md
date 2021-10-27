@@ -27,7 +27,7 @@ square_multiply(a, x, n)
 {
   y = 1
   # n_b is the number of bits in x
-  for( i = n_b-1 downto 0 )
+  for( i = n_b-1 down to 0 )
   {
     # square
     y = y^2 mod n
@@ -38,11 +38,13 @@ square_multiply(a, x, n)
 }
 ```
 
+For a number primality test, we can use [this](https://www.dcode.fr/primality-test).
+
 You are provided `primes_template.py` to use as a starting point. Save it as `primes.py` You will need `square_multiply` for the next section. (it is imported by `dhke_template.py` and `babygiant_template.py`)
 
 ## Part II: Diffie-Hellman Key Exchange (DHKE)
 
-DHKE can be used to exchange keys between two parties through insecure channel. For this exercise, you will simulate a exchange of keys using the DHKE protocol, following by sending an encrypted message.
+DHKE can be used to exchange keys between two parties through insecure channel. For this exercise, you will simulate an exchange of keys using the DHKE protocol, following by sending an encrypted message.
 
 Create a Python script that enables you to do this. Use the provided `dhke_template.py` as a starting point. Submit it as `dhke.py`.
 
