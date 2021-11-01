@@ -47,6 +47,7 @@ def miller_rabin(n, a):
             if x == n - 1:
                 break
 
+        # No break
         else:
             # Composite number
             return False
