@@ -97,6 +97,7 @@ if __name__ == "__main__":
     print(f"Modified to: {new_integer}\n")
     try:
         decrypted_integer = decrypt_RSA(private_key_filename, new_integer)
+        assert not chosen_integer * multiplier_value == decrypted_integer
         if chosen_integer * multiplier_value == decrypted_integer:
             print(
                 f"Successful attack with final modified integer: {decrypted_integer}\n"
