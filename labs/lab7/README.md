@@ -23,16 +23,16 @@
 
 ## Part I: Setup
 
-Make sure you have [PyCrypto](https://github.com/pycrypto/pycrypto) installed.
+Make sure you have [pycryptodome](https://github.com/Legrandin/pycryptodome) installed.
 
-- Install: `pip install pycrypto --upgrade`
+- Install: `pip install pycryptodome --upgrade`
 - Check that you can import it
 
 ```python
 from Crypto.PublicKey import RSA
 ```
 
-The documentation for PyCrypto can be found [here](https://www.dlitz.net/software/pycrypto/api/current/).
+The documentation for pycryptodome can be found [here](https://pycryptodome.readthedocs.io/en/latest/).
 
 ## Part II: RSA Without Padding
 
@@ -142,12 +142,12 @@ Create an implementation of RSA with the following basic building functions:
 
 1. `generate_RSA(bits=1024)` which generates the private key and public key in PEM format. The input parameter is the number of bits in the key which has default value of 1024 bits. Use `RSA.generate()` to generate the keys.
 2. `encrypt_RSA(public_key_file,message)` which encrypts a string message using the public key, stored in the file name `public_key_file`. The function returns the ciphertext in base64. Use PyCrypto class `Crypto.Cipher.PKCS1_OAEP` to encrypt the message. To do so:
-   _ Read the public key from a file.
-   _ Use `RSA.importKey()` to import the key. \* Create a new `PKCS1_OAEP` object and use its encrypt method rather than using your own square and multiply. This will encrypt RSA with some padding following OAEP.
+   - Read the public key from a file.
+   - Use `RSA.importKey()` to import the key.
+   - Create a new `PKCS1_OAEP` object and use its encrypt method rather than using your own square and multiply. This will encrypt RSA with some padding following OAEP.
 3. `decrypt_RSA(private_key_file,cipher)` which decrypts cipher text in base64 using the private key, stored in the file name `private_key_file`. The function returns the plaintext. Use PyCrypto class `Crypto.Cipher.PKCS1_OAEP` to decrypt the message. This is similar to encrypt but use decrypt method.
 4. `sign_data(private_key_file,data)` which signs the data string using a private key, stored in the file name `private_key_file`. The function returns a signature string in base64. Use PyCrypto class `Crypto.Signature.PKCS1_PSS`. Use SHA-256 to create a digest of the data before signing.
-5. `verify_sign(public_key_file,sign,data)` which verifies the signature sign of a given
-   data. The function returns either `True` or `False`. Use PyCrypto class `Crypto.Signature.PKCS1_PSS` instead of using the square and multiply routine you created. Use SHA-256 to create a digest of the data before verifying.
+5. `verify_sign(public_key_file,sign,data)` which verifies the signature sign of a given data. The function returns either `True` or `False`. Use PyCrypto class `Crypto.Signature.PKCS1_PSS` instead of using the square and multiply routine you created. Use SHA-256 to create a digest of the data before verifying.
 
 **Task**
 
