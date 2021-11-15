@@ -18,16 +18,28 @@ if __name__ == "__main__":
 
     encrypted_message = encrypt_message(msg, pubkey.e, pubkey.n)
     decrypted_message = decrypt_message(encrypted_message, privkey.d, privkey.n)
-    assert msg == decrypted_message
     print(
-        f"Original message: {msg}\n\nEncrypted message: {encrypted_message}\n\nDecrypted message: {decrypted_message}"
+        f"Original message: {msg}\n\nEncrypted message: {encrypted_message}\n\nDecrypted message: {decrypted_message}\n"
     )
+    assert msg == decrypted_message
+    if msg == decrypted_message:
+        print("The decrypted message is the same as the original message.\n")
+    else:
+        print("The decrypted message is different from the original message.\n")
 
     # Demonstrate message hash signing
     msg_hash = SHA256.new(msg.encode()).hexdigest()
     signature = encrypt_message(msg_hash, privkey.d, privkey.n)
     signature_to_verify = decrypt_message(signature, pubkey.e, pubkey.n)
-    assert msg_hash == signature_to_verify
     print(
-        f"Message hash: {msg_hash}\n\nSignature: {signature}\n\nVerified signature: {signature_to_verify}"
+        f"Message hash: {msg_hash}\n\nSignature: {signature}\n\nVerified signature: {signature_to_verify}\n"
     )
+    assert msg_hash == signature_to_verify
+    if msg_hash == signature_to_verify:
+        print(
+            "The received message signature is the same as the original message hash."
+        )
+    else:
+        print(
+            "The received message signature is different from the original message hash."
+        )

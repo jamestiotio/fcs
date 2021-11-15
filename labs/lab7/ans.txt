@@ -1,0 +1,1 @@
+RSA protocol attacks would only be effective if OAEP and PSS are not used, due to the malleable nature of the modular exponentiation involved in RSA's algorithm. If OAEP and PSS are used, chosen ciphertext attacks will not succeed.

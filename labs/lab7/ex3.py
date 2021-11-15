@@ -17,9 +17,17 @@ if __name__ == "__main__":
     s = 2
     print(f"Encrypting: {chosen_int}\n")
     y = encrypt(chosen_int, pubkey.e, pubkey.n)
-    y_s = encrypt(s, pubkey.e, pubkey.n)
-    m = y * y_s
-    decrypted = decrypt(m, privkey.d, privkey.n)
     print(f"Result: {y}\n")
-    print(f"Modified to: {y_s}\n")
+    y_s = encrypt(s, pubkey.e, pubkey.n)
+    print(
+        f"Multiplying the encryption result by the encrypted value of the multiplier factor {s}, which is: {y_s}\n"
+    )
+    m = y * y_s
+    print(f"Modified to: {m}\n")
+    decrypted = decrypt(m, privkey.d, privkey.n)
     print(f"Decrypted: {decrypted}\n")
+    assert chosen_int * s == decrypted
+    if chosen_int * s == decrypted:
+        print("Attack is successful!")
+    else:
+        print("Attack has failed.")
