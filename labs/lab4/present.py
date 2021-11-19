@@ -836,7 +836,7 @@ def turbo_boosted_jamestiotio_sBoxLayer_inv(state):
 ### This implementation uses the GRP instruction (check PEX and PDEP as well) - we de-interleave the odd and even bits (Morton encoding/decoding)
 ### Avoid hitting the lookup tables at all (trace the bits)
 ### This is halfway/a middle ground between a naive for loop and a one-permutation-per-clock-period FPGA operation (big brain moment)
-### I will be honest, I don't know why it's 2 instead of 4. But it works. Don't ask me why it works.
+### I will be honest, I don't know why it's 2 instead of 4. But it works. Don't ask me why it works, because this is nonsensical. You are not expected to understand this.
 def turbo_boosted_jamestiotio_pLayer(state):
     output = state
     for _ in range(2):
