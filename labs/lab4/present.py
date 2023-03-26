@@ -33,6 +33,7 @@ inverted_sbox = [
 ]
 
 # PLayer
+# [y for x in range(16) for y in (x, x+16, x+32, x+48)]
 pmt = [
     0,
     16,
